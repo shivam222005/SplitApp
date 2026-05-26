@@ -6,7 +6,10 @@ var apiAuth = require('./helper/apiAuthentication')
 var cors = require('cors')
 
 const path = require('path');
-dotenv.config()
+require("dotenv").config();
+require('./model/schema')
+
+console.log(process.env.JWT_SECRET)
 
 var usersRouter = require('./routes/userRouter')
 var gorupRouter = require('./routes/groupRouter')

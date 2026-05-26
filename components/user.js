@@ -15,6 +15,7 @@ API: /users/v1/register
 exports.userReg = async (req, res) => {
     try {
         //Checking email Id exist in DB
+
         const user = await model.User.findOne({
             emailId: req.body.emailId
         })
@@ -27,13 +28,17 @@ exports.userReg = async (req, res) => {
             //Accepts the inputs and create user model form req.body
             var newUser = new model.User(req.body)
             //Performing validations
-            if (validator.emailValidation(newUser.emailId) &&
+
+ 
+   
+             if (validator.emailValidation(newUser.emailId) &&
                 validator.passwordValidation(newUser.password) &&
                 validator.notNull(newUser.firstName)) {
                 //Bcrypt password encription
                 const salt = await bcrypt.genSalt(10);
                 newUser.password = await bcrypt.hash(newUser.password, salt)
 
+                
                 //storing user details in DB
                 var id = await model.User.create(newUser)
                 res.status(200).json({
@@ -86,12 +91,20 @@ exports.userLogin = async (req, res) => {
                 accessToken
             })
         }
-    } catch (err) {
-        logger.error(`URL : ${req.originalUrl} | staus : ${err.status} | message: ${err.message} ${err.stack}`)
-        res.status(err.status || 500).json({
-            message: err.message
-        })
-    }
+    }  catch (err) {
+
+
+    logger.error(
+      `URL : ${req.originalUrl} |
+       staus : ${err.status} |
+       message: ${err.message}
+       ${err.stack}`
+    )
+
+    res.status(err.status || 500).json({
+        message: err.message
+    })
+}
 }
 
 /*
